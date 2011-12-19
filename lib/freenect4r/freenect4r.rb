@@ -28,7 +28,7 @@ module Freenect4r
     :freenect_resolution_low,    0,           # QVGA - 320x240 
     :freenect_resolution_medium, 1,           # VGA  - 640x480 
     :freenect_resolution_high,   2,           # SXGA - 1280x1024
-    :freenect_resolution_dummy = 2147483647 , #Dummy value to force enum to be 32 bits wide
+    :freenect_resolution_dummy,  2147483647   # Dummy value to force enum to be 32 bits wide
   )
 
   # Enumeration of video frame information states.
@@ -63,7 +63,7 @@ module Freenect4r
            :depth_format, FREENECT_DEPTH_FORMAT
   end 
   class FreenectFrameMode < FFI::Struct
-    layout :reserved,               :uint32_t,           # unique ID used internally.  The meaning of values may change without notice.  
+    layout :reserved,               :uint32,             # unique ID used internally.  The meaning of values may change without notice.  
                                                          # Don't touch or depend on the contents of this field.  We mean it.
            :resolution,             FREENECT_RESOLUTION, # Resolution this freenect_frame_mode describes, should you want to find it again with freenect_find_*_frame_mode().
            :format,                 FreenectFormat,      # The video or depth format that this freenect_frame_mode describes.  The caller should know which of video_format or 
@@ -90,10 +90,10 @@ module Freenect4r
   ) 
                               
   # Enumeration of tilt motor status
-  FREENECT_TILT_STATUS_CODE =  enum (
+  FREENECT_TILT_STATUS_CODE =  enum(
   	:tilt_status_stopped, 0x00, # Tilt motor is stopped
   	:tilt_status_limit,   0x01, # Tilt motor has reached movement limit
-  	:tilt_status_moving,  0x04, # Tilt motor is currently moving to new position
+  	:tilt_status_moving,  0x04  # Tilrequire 'ffi't motor is currently moving to new position
   )
 
   class FreenectRawTiltState < FFI::Struct
@@ -173,7 +173,7 @@ module Freenect4r
   #
   # @param ctx Context to set future subdevice selection for
   # @param subdevs Flags representing the subdevices to select
-  attache_function :freenect_select_subdevices, [:freenect_context, FREENECT_DEVICE_FLAGS], :void
+  attach_function :freenect_select_subdevices, [:freenect_context, FREENECT_DEVICE_FLAGS], :void
   
   # Opens a kinect device via a context. Index specifies the index of
   # the device on the current state of the bus. Bus resets may cause
@@ -307,7 +307,7 @@ module Freenect4r
   #
   # @return Status code of the tilt device. See
   # freenect_tilt_st:freenect_get_tilt_statusatus_code enum for more info.
-  attache_function :freenect_get_tilt_status, [FreenectRawTiltState], FREENECT_TILT_STATUS_CODE
+  attach_function :freenect_get_tilt_status, [FreenectRawTiltState], FREENECT_TILT_STATUS_CODE
   
   # Set the state of the LED. Uses blocking control message call to
   # update device.

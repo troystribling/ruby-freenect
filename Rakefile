@@ -4,13 +4,13 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "ffi-libfreenect"
-    gem.summary = gem.description = %Q{FFI bindings for the libfreenect OpenKinect library}
-    gem.homepage = "http://github.com/jgrunzweig/ffi-libfreenect"
-    gem.authors = ["Josh Grunzweig", "Eric Monti"]
+    gem.name = "freenect4r"
+    gem.summary = gem.description = %Q{Ruby bindings for the libfreenect Kinect driver}
+    gem.homepage = "https://github.com/troystribling/freenect4r"
+    gem.authors = ["Troy Stribling"]
 
     gem.rdoc_options += ["--title", "FFI Freenect", "--main",  "README.rdoc", "--line-numbers"]
-    gem.add_dependency("ffi", ">= 0.5.0")
+    gem.add_dependency("ffi", ">= 1.0.11")
 
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
@@ -32,12 +32,3 @@ end
 task :spec => :check_dependencies
 
 task :default => :spec
-
-begin
-  require 'yard'
-  YARD::Rake::YardocTask.new
-rescue LoadError
-  task :yardoc do
-    abort "YARD is not available. In order to run yardoc, you must: sudo gem install yard"
-  end
-end

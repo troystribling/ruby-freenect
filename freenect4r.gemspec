@@ -4,18 +4,19 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = "ffi-libfreenect"
-  s.version = "0.1.1"
+  s.name = "freenect4r"
+  s.version = "0.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Josh Grunzweig", "Eric Monti"]
-  s.date = "2011-12-18"
-  s.description = "FFI bindings for the libfreenect OpenKinect library"
+  s.authors = ["Troy Stribling"]
+  s.date = "2011-12-19"
+  s.description = "Ruby bindings for the libfreenect Kinect driver"
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
   ]
   s.files = [
+    ".rvmrc",
     "History.txt",
     "LICENSE.txt",
     "README.rdoc",
@@ -28,10 +29,10 @@ Gem::Specification.new do |s|
     "examples/tilt_nod.rb",
     "examples/video_opengl.rb",
     "examples/video_snapshot.rb",
-    "lib/ffi/freenect.rb",
     "lib/freenect.rb",
     "lib/freenect/context.rb",
     "lib/freenect/device.rb",
+    "lib/freenect/freenect.rb",
     "lib/freenect/sync.rb",
     "spec/context_spec.rb",
     "spec/device_spec.rb",
@@ -39,22 +40,22 @@ Gem::Specification.new do |s|
     "spec/spec.opts",
     "spec/spec_helper.rb"
   ]
-  s.homepage = "http://github.com/jgrunzweig/ffi-libfreenect"
+  s.homepage = "https://github.com/troystribling/freenect4r"
   s.rdoc_options = ["--title", "FFI Freenect", "--main", "README.rdoc", "--line-numbers"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.10"
-  s.summary = "FFI bindings for the libfreenect OpenKinect library"
+  s.summary = "Ruby bindings for the libfreenect Kinect driver"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<ffi>, [">= 0.5.0"])
+      s.add_runtime_dependency(%q<ffi>, [">= 1.0.11"])
     else
-      s.add_dependency(%q<ffi>, [">= 0.5.0"])
+      s.add_dependency(%q<ffi>, [">= 1.0.11"])
     end
   else
-    s.add_dependency(%q<ffi>, [">= 0.5.0"])
+    s.add_dependency(%q<ffi>, [">= 1.0.11"])
   end
 end
 
