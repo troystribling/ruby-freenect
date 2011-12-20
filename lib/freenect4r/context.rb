@@ -1,9 +1,7 @@
-require 'ffi/freenect'
-require 'freenect/device'
-
 module Freenect
-  class ContextError < StandardError
-  end
+
+
+  class ContextError < StandardError; end
 
   class Context
     def initialize(usb_ctx=nil)

@@ -1,7 +1,3 @@
-
-require 'ffi/freenect'
-require 'freenect/context'
-
 module Freenect
   RawTiltState = FFI::Freenect::RawTiltState
 

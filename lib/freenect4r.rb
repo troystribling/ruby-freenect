@@ -1,14 +1,10 @@
 $:.unshift(File.dirname(__FILE__))
 require 'ffi'
-require 'freenect4r/freenect4r'
+require 'freenect4r/driver'
+# require 'freenect4r/context'
 
-# module Freenect
-#   class FormatError < StandardError
-#   end
-# 
-# 
-#   include FFI::Freenect
-# 
+# module Freenect4r
+
 #   def self.init(*args)
 #     Context.new(*args)
 #   end
