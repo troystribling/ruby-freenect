@@ -1,29 +1,17 @@
 module Freenect
   RawTiltState = FFI::Freenect::RawTiltState
 
-  class DeviceError < StandardError
-  end
+  class DeviceError < StandardError;end
 
   class Device
-    # Returns a device object tracked by its ruby object reference ID stored
-    # in user data.
-    #
-    # This method is intended for internal use.
-    def self.by_reference(devp)
-      unless devp.null? or (refp=FFI::Freenect.freenect_get_user(devp)).null?
-        obj=ObjectSpace._id2ref(refp.read_long_long)
-        return obj if obj.is_a?(Device)
-      end
-    end
-
+    include Driver
+    
     def initialize(ctx, idx)
       dev_p = ::FFI::MemoryPointer.new(:pointer)
       @ctx = ctx
-
-      if ::FFI::Freenect.freenect_open_device(@ctx.context, dev_p, idx) != 0
+      if freenect_open_device(@ctx.context, dev_p, idx) != 0
         raise DeviceError, "unable to open device #{idx} from #{ctx.inspect}"
       end
-
       @dev = dev_p.read_pointer
       save_object_id!()
     end

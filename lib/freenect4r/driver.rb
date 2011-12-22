@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'ffi'
-
 module Freenect4r
   module Driver
     
@@ -32,6 +29,13 @@ module Freenect4r
       :freenect_resolution_dummy,  2147483647   # Dummy value to force enum to be 32 bits wide
     )
 
+    # video size by resolution
+    FREENECT_VIDEO_SIZE = {
+      :freenect_resolution_low    => 76800,    # QVGA - 320x240 
+      :freenect_resolution_medium => 307200,   # VGA  - 640x480 
+      :freenect_resolution_high   => 1310720   # SXGA - 1280x1024
+    }
+    
     # Enumeration of video frame information states.
     # See http://openkinect.org/wiki/Protocol_Documentation#RGB_Camera for more information.
     FREENECT_VIDEO_FORMAT = enum(
@@ -399,7 +403,7 @@ module Freenect4r
     # 
     #   Returns:
     #       Nonzero on error.
-    attach_function :freenect_syn_get_video, [:pointer, :uint32, :int, FREENECT_VIDEO_FORMAT], :int
+    attach_function :freenect_syn_get_video, [:pointer, :pointer, :int, FREENECT_VIDEO_FORMAT], :int
 
     # Synchronous depth function, starts the runloop if it isn't running
     # 

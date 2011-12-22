@@ -1,10 +1,6 @@
-require 'freenect'
-require 'ffi/freenect'
-
-if FFI::Freenect::HAS_FREENECT_SYNC
-
 module Freenect
-  module Sync
+  class Sync
+    extend Driver
     # Synchronous video function (starts the runloop if it isn't running)
     #
     # @param idx 
@@ -24,9 +20,7 @@ module Freenect
     #   An exception is raised if an unknown error occurs in the 
     #   freenect_sync_get_video function
     #   
-    def self.get_video(idx=nil, fmt=nil)
-      idx ||= 0
-      fmt ||= :rgb
+    def self.get_video(idx=0, fmt=:freenect_video_rgb)
 
       if (buf_size = Freenect.lookup_video_size(fmt)).nil?
         raise(Freenect::FormatError, "Invalid video format: #{fmt.inspect}")
