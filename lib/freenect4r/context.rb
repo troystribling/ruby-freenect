@@ -6,7 +6,7 @@ module Freenect
     include Driver
 
     def initialize(usb_ctx=nil)
-      ctx_p = FFI::MemoryPointer.new(:pointer)
+      ctx_p = MemoryPointer.new(:pointer)
       if freenect_init(ctx_p, usb_ctx) != 0
         raise ContextError, "freenect_init() returned nonzero"
       elsif ctx_p.null?

@@ -31,9 +31,9 @@ module Freenect4r
 
     # video size by resolution
     FREENECT_VIDEO_SIZE = {
-      :freenect_resolution_low    => 76800,    # QVGA - 320x240 
-      :freenect_resolution_medium => 307200,   # VGA  - 640x480 
-      :freenect_resolution_high   => 1310720   # SXGA - 1280x1024
+      :freenect_resolution_low    => [320, 240],   # QVGA - 320x240 
+      :freenect_resolution_medium => [640, 480],   # VGA  - 640x480 
+      :freenect_resolution_high   => [1280, 1024]  # SXGA - 1280x1024
     }
     
     # Enumeration of video frame information states.
@@ -418,7 +418,7 @@ module Freenect4r
     # 
     #     Returns:
     #         Nonzero on error.
-    attach_function :freenect_sync_get_depth, [:int, :int], :int
+    attach_function :freenect_sync_get_depth, [:pointer, :pointer, :int, FREENECT_VIDEO_FORMAT], :int
     
     # Tilt function, starts the runloop if it isn't running
     # 
