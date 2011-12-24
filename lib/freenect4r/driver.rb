@@ -323,6 +323,35 @@ module Freenect4r
     # @return 0 on success, < 0 on error
     attach_function :freenect_set_led, [:freenect_device, FREENECT_LED_OPTIONS], :int
 
+    # Get the frame descriptor of the current depth mode for the specified
+    # freenect device.
+    #
+    # @param dev Which device to return the currently-set depth mode for
+    #
+    # @return A freenect_frame_mode describing the current depth mode of the specified device
+    attach_function :freenect_get_current_depth_mode, [:freenect_device], FreenectFrameMode
+
+    # Sets the current video mode for the specified device.  If the
+    # freenect_frame_mode specified is not one provided by the driver
+    # e.g. from freenect_get_video_mode() or freenect_find_video_mode()
+    # then behavior is undefined.  The current video mode cannot be
+    # changed while streaming is active.
+    #
+    # @param dev Device for which to set the video mode
+    # @param mode Frame mode to set
+    #
+    # @return 0 on success, < 0 if error
+    attach_function :freenect_set_video_mode, [:freenect_device, FreenectFrameMode], :int
+
+    # Sets the current depth mode for the specified device.  The mode
+    # cannot be changed while streaming is active.
+    #
+    # @param dev Device for which to set the depth mode
+    # @param mode Frame mode to set
+    #
+    # @return 0 on success, < 0 if error
+    attach_function :freenect_set_depth_mode, [:freenect_device, FreenectFrameMode], :int
+  
     # Get the axis-based gravity adjusted accelerometer state, as laid
     # out via the accelerometer data sheet, which is available at
     #
@@ -347,30 +376,18 @@ module Freenect4r
     # @return A freenect_frame_mode describing the nth video mode
     attach_function :freenect_get_video_mode, [:int], FreenectFrameMode
   
-    # Sets the current video mode for the specified device.  If the
-    # freenect_frame_mode specified is not one provided by the driver
-    # e.g. from freenect_get_video_mode() or freenect_find_video_mode()
-    # then behavior is undefined.  The current video mode cannot be
-    # changed while streaming is active.
-    #
-    # @param dev Device for which to set the video mode
-    # @param mode Frame mode to set
-    #
-    # @return 0 on success, < 0 if error
-    attach_function :freenect_set_video_mode, [:freenect_device, FreenectFrameMode], :int
-
     # Get the number of depth camera modes supported by the driver.  This includes both RGB and IR modes.
     #
     # @return Number of depth modes supported by the driver
+    attach_function :freenect_get_depth_mode_count, [], :int
+
+    # Get the frame descriptor of the nth supported depth mode for the
+    # depth camera.
+    #
+    # @param n Which of the supported modes to return information about
+    #
+    # @return A freenect_frame_mode describing the nth depth mode
     attach_function :freenect_get_depth_mode, [:int], FreenectFrameMode
-  
-    # Get the frame descriptor of the current depth mode for the specified
-    # freenect device.
-    #
-    # @param dev Which device to return the currently-set depth mode for
-    #
-    # @return A freenect_frame_mode describing the current depth mode of the specified device
-    attach_function :freenect_get_current_depth_mode, [:freenect_device], FreenectFrameMode
   
     # Convenience function to return a mode descriptor matching the
     # specified resolution and depth camera pixel format, if one exists.
@@ -381,15 +398,6 @@ module Freenect4r
     # @return A freenect_frame_mode that matches the arguments specified, if such a valid mode exists; otherwise, an invalid freenect_frame_mode.
     attach_function :freenect_find_depth_mode, [FREENECT_RESOLUTION, FREENECT_DEPTH_FORMAT], FreenectFrameMode
   
-    # Sets the current depth mode for the specified device.  The mode
-    # cannot be changed while streaming is active.
-    #
-    # @param dev Device for which to set the depth mode
-    # @param mode Frame mode to set
-    #
-    # @return 0 on success, < 0 if error
-    attach_function :freenect_set_depth_mode, [:freenect_device, FreenectFrameMode], :int
-
     # Synchronous video function, starts the runloop if it isn't running
     # 
     #   The returned buffer is valid until this function is called again, after which the buffer must not

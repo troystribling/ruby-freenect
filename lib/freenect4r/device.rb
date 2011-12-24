@@ -1,4 +1,4 @@
-module Freenect
+module Freenect4r
   RawTiltState = FFI::Freenect::RawTiltState
 
   class DeviceError < StandardError;end
