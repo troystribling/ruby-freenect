@@ -403,7 +403,7 @@ module Freenect4r
     # 
     #   Returns:
     #       Nonzero on error.
-    attach_function :freenect_syn_get_video, [:pointer, :pointer, :int, FREENECT_VIDEO_FORMAT], :int
+    attach_function :freenect_sync_get_video, [:pointer, :pointer, :int, FREENECT_VIDEO_FORMAT], :int
 
     # Synchronous depth function, starts the runloop if it isn't running
     # 
@@ -428,7 +428,7 @@ module Freenect4r
     # 
     #     Returns:
     #         Nonzero on error.
-    attach_function :freenect_syn_set_tilt_degs, [:int, :int], :int
+    attach_function :freenect_sync_set_tilt_degs, [:int, :int], :int
     
     # Tilt state function, starts the runloop if it isn't running
     # 

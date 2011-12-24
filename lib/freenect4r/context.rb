@@ -3,7 +3,7 @@ module Freenect
 
   class Context  
       
-    include Driver
+    include Freenect4r::Driver
 
     def initialize(usb_ctx=nil)
       ctx_p = MemoryPointer.new(:pointer)

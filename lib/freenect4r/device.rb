@@ -4,7 +4,7 @@ module Freenect
   class DeviceError < StandardError;end
 
   class Device
-    include Driver
+    include Freenect4r::Driver
     
     def initialize(ctx, idx)
       dev_p = MemoryPointer.new(:pointer)

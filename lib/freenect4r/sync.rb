@@ -1,6 +1,6 @@
 module Freenect
   class Sync
-    extend Driver
+    extend Freenect4r::Driver
 
     class << self
       
@@ -11,7 +11,7 @@ module Freenect
         if ret != 0
           raise("Unknown error in freenect_sync_get_video()")
         else
-          {:timestamp => timestamp_p.read_int, video_p.read_string_length(buf_size)]
+          [timestamp_p.read_int, video_p.read_string_length(buf_size)]
         end
       end
 
@@ -27,7 +27,7 @@ module Freenect
       end
 
       def set_tilt(angle, idx=0)
-        freenect_syn_set_tilt_degs(angle, idx)
+        freenect_sync_set_tilt_degs(angle, idx)
       end
 
       def get_tilt(idx=0)
