@@ -1,8 +1,7 @@
 module Freenect
   class ContextError < StandardError; end
 
-  class Context  
-      
+  class Context        
     include Freenect4r::Driver
 
     def initialize(usb_ctx=nil)

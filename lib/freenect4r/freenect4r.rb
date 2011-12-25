@@ -14,6 +14,9 @@ module Freenect4r
     def method_missing(meth, *args, &blk)
       Interface.send(meth, *args, &blk)
     end
+    def self.init(*args)
+      Context.new(*args)
+    end
   end
   
   class Interface
