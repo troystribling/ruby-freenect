@@ -26,6 +26,7 @@ module Freenect4r
       end
       
       def get_video_mode(mode_id)
+        freenect_get_video_mode(mode_id)
       end
 
       def get_video(idx=0, fmt=:freenect_video_rgb)
@@ -44,6 +45,7 @@ module Freenect4r
       end
 
       def get_depth_mode(mode_id)
+        freenect_get_depth_mode(mode_id)
       end
         
       def get_depth(idx=0, fmt=:freenect_depth_11bit)
