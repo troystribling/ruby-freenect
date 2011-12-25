@@ -10,3 +10,6 @@ depth_mode_count = Freenect.get_depth_mode_count
 puts "Depth Mode Count: #{depth_mode_count}"
 depth_mode_count.times do |mode_id|
 end 
+
+context = Freenect.init
+puts "Number of Devices: #{context.get_device_count}"

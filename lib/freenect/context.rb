@@ -5,52 +5,49 @@ module Freenect
     include Freenect::Driver
 
     def initialize(usb_ctx=nil)
-      ctx_p = MemoryPointer.new(:pointer)
+      ctx_p = FFI::MemoryPointer.new(:pointer)
       if freenect_init(ctx_p, usb_ctx) != 0
         raise ContextError, "freenect_init() returned nonzero"
       elsif ctx_p.null?
         raise ContextError, "freenect_init() produced a NULL context"
       end
-      @ctx = ctx_p.read_pointer
+      @context, @closed = ctx_p.read_pointer, false
     end
 
     def context
-      if @ctx_closed
-        raise ContextError, "This context has been shut down and can no longer be used"
-      else
-        @ctx
-      end
+      @closed ? raise(ContextError, "This context has been shut down and can no longer be used") :  @context
     end
 
-    def num_devices
-      freenect_num_devices(self.context)
+    def get_device_count
+      freenect_num_devices(context)
     end
 
-    def device(idx)
-      return Device.new(self, idx)
+    def get_device(idx=0)
+      @device ||= Device.new(self, idx=0)
     end
 
-    def set_log_level(loglevel)
-      freenect_set_log_level(self.context, loglevel)
+    def set_log_level(log_level)
+      raise(ArgumentError, "#{log_level} is invalid depth format") unless Freenect::FREENECT_LOGLEVEL.symbols.include?(log_level)
+      freenect_set_log_level(context, loglevel)
     end
 
     def set_log_callback(&block)
-      freenect_set_log_callback(self.context, block)
+      freenect_set_log_callback(context, block)
     end
 
     def process_events
-      freenect_process_events(self.context)
+      freenect_process_events(context)
     end
 
     def close
       unless closed?
-        raise(ContextError, "freenect_shutdown() returned nonzero") if freenect_shutdown(@ctx) != 0
-        @ctx_closed = true
+        raise(ContextError, "freenect_shutdown() returned nonzero") if freenect_shutdown(@context) != 0
+        @closed = true
       end
     end
     
     def closed?
-      @ctx_closed
+      @closed
     end
   end
 end

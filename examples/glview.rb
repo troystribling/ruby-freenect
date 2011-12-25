@@ -1,13 +1,8 @@
-# drawf.c
-# Draws the bitmapped letter F on the screen (several times).
-# This demonstrates use of the glBitmap() call.
 $: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
-require 'freenect'
 require 'rubygems'
+require 'freenect'
 require 'opengl'
 include Gl,Glu,Glut
-
-
 
 display = Proc.new do
 	glClear(GL_COLOR_BUFFER_BIT)

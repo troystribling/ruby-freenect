@@ -14,7 +14,7 @@ module Freenect
     def method_missing(meth, *args, &blk)
       Interface.send(meth, *args, &blk)
     end
-    def self.init(*args)
+    def init(*args)
       Context.new(*args)
     end
   end
@@ -91,8 +91,9 @@ module Freenect
         {:x=>xacc.read_double, :y=>yacc.read_double, :z=>zacc.read_double}
       end
 
-      def set_led(led, idx=0)
-        freenect_sync_set_led(led, idx)
+      def set_led(led_option, idx=0)
+        raise(ArgumentError, "#{led_option} is invalid depth format") unless Freenect::FREENECT_LED_OPTIONS.symbols.include?(led_option)
+        freenect_sync_set_led(Freenect::FREENECT_LED_OPTIONS[:led_option], idx)
       end
       
       def stop
