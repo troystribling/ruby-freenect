@@ -66,6 +66,11 @@ module Freenect4r
         freenect_get_tilt_degs(tilt_state)
       end
       
+      def get_tilt_status(tilt_state=nil, idx=0)
+        tilt_state ||= get_tilt_state(idx)
+        freenect_get_tilt_status(tilt_state)
+      end
+      
       def get_tilt_state(idx=0)
         state_ptr = pointer(:pointer)
         freenect_sync_get_tilt_state(state_ptr, idx)

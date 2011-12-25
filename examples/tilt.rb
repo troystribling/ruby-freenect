@@ -5,9 +5,10 @@ require 'freenect4r'
   puts "Set Tilt Angle: #{angle}"
   tilt_state = Freenect4r.get_tilt_state
   tilt_angle = Freenect4r.get_tilt(tilt_state)
+  tilt_status = Freenect4r.get_tilt_status(tilt_state)
   acc = Freenect4r.get_acceleration(tilt_state)
   puts "Current Tilt Angle: #{tilt_angle}"
-  puts "Tilt Status: #{tilt_state[:tilt_status]}"
+  puts "Tilt Status: #{tilt_status}"
   puts "Acceleration: #{acc.inspect}"
   Freenect4r.set_tilt(angle)
   sleep(10)
