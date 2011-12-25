@@ -1,5 +1,4 @@
 # .gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
-bundler -v1.0.21
 diff-lcs -v1.1.3
 ffi -v1.0.11
 git -v1.2.5
