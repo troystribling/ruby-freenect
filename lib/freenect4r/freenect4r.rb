@@ -1,5 +1,15 @@
 module Freenect4r
   
+  FREENECT_COUNTS_PER_G     = Freenect4r::Driver::FREENECT_COUNTS_PER_G
+  FREENECT_DEVICE_FLAGS     = Freenect4r::Driver::FREENECT_DEVICE_FLAGS
+  FREENECT_RESOLUTION       = Freenect4r::Driver::FREENECT_RESOLUTION
+  FREENECT_VIDEO_SIZE       = Freenect4r::Driver::FREENECT_VIDEO_SIZE
+  FREENECT_VIDEO_FORMAT     = Freenect4r::Driver::FREENECT_VIDEO_FORMAT
+  FREENECT_DEPTH_FORMAT     = Freenect4r::Driver::FREENECT_DEPTH_FORMAT
+  FREENECT_LED_OPTIONS      = Freenect4r::Driver::FREENECT_LED_OPTIONS
+  FREENECT_TILT_STATUS_CODE = Freenect4r::Driver::FREENECT_TILT_STATUS_CODE
+  FREENECT_LOGLEVEL         = Freenect4r::Driver::FREENECT_LOGLEVEL
+  
   class << self
     def method_missing(meth, *args, &blk)
       Interface.send(meth, *args, &blk)
@@ -67,7 +77,7 @@ module Freenect4r
       end
 
       def set_led(led, idx=0)
-        frrenect_sync_set_led(led, idx)
+        freenect_sync_set_led(led, idx)
       end
       
       def stop
