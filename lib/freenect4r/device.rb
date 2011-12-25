@@ -48,14 +48,10 @@ module Freenect4r
       end
     end
 
-    alias tilt_state get_tilt_state
-
     # Returns the current tilt angle
     def get_tilt_degrees
       ::FFI::Freenect.freenect_get_tilt_degs(self.device)
     end
-
-    alias tilt get_tilt_degrees
 
     # Sets the tilt angle.
     # Maximum tilt angle range is between +30 and -30
@@ -63,8 +59,6 @@ module Freenect4r
       freenect_set_tilt_degs(self.device, angle)
       return(update_tilt_state() < 0) # based on libfreenect error cond. as of 12-21-10
     end
-
-    alias tilt= set_tilt_degrees
 
     # Defines a handler for depth events.
     #
@@ -77,8 +71,6 @@ module Freenect4r
       freenect_set_depth_callback(self.device, @depth_callback)
     end
 
-    alias on_depth set_depth_callback
-
     # Defines a handler for video events.
     #
     # @yield [device, video_buf, timestamp]
@@ -89,8 +81,6 @@ module Freenect4r
       @video_callback = block
       freenect_set_video_callback(self.device, @video_callback)
     end
-
-    alias on_video set_video_callback
 
     def start_depth
       unless(freenect_start_depth(self.device) == 0)
@@ -127,8 +117,6 @@ module Freenect4r
       end
     end
 
-    alias depth_format= set_depth_format
-
     # returns the symbolic constant for the current depth format
     def depth_format
       (@depth_format.is_a?(Numeric))? Freenect::DEPTH_FORMATS[@depth_format] : @depth_format
@@ -146,7 +134,6 @@ module Freenect4r
         raise DeviceError, "Error calling freenect_set_video_format(self, #{fmt})"
       end
     end
-    alias video_format= set_video_format
 
     def video_format
       (@video_format.is_a?(Numeric))? VIDEO_FORMATS[@video_format] : @video_format

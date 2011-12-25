@@ -30,12 +30,10 @@ module Freenect
     def device(idx)
       return Device.new(self, idx)
     end
-    alias [] device
 
     def set_log_level(loglevel)
       freenect_set_log_level(self.context, loglevel)
     end
-    alias log_level= set_log_level
 
     def set_log_callback(&block)
       freenect_set_log_callback(self.context, block)
