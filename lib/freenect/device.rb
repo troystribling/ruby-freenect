@@ -4,7 +4,7 @@ module Freenect
   class Device
     include Freenect::Driver
     
-    attr_reader :contect, :device, :closed, :depth_format, :video_format
+    attr_reader :context, :device, :closed, :depth_mode, :video_mode
     
     def initialize(context, idx=0)
       dev_p = FFI::MemoryPointer.new(:pointer)
@@ -25,6 +25,7 @@ module Freenect
         if freenect_close_device(device) == 0
           @closed = true
         end
+        context.close
       end
     end
 
@@ -67,25 +68,31 @@ module Freenect
     end
 
     def get_current_video_mode
-      freenect_get_current_video_mode(device)
+      @video_mode = freenect_get_current_video_mode(device)
     end
 
     def set_video_mode(frame_mode)
+      @video_mode = frame_mode
       freenect_set_video_mode(device, frame_mode)
     end
     
     def get_current_depth_mode
-      freenect_get_current_depth_mode(device)
+      @depth_mode = freenect_get_current_depth_mode(device)
     end
 
     def set_depth_mode(frame_mode)
+      @depth_mode = frame_mode
       freenect_set_depth_mode(device, frame_mode)
     end
     
     def set_led(led_option)
-      freenect_set_led(device, Freenect::FREENECT_LED_OPTIONS[led_option]) == 0
+      freenect_set_led(device, Freenect::FREENECT_LED_OPTIONS[led_option])
     end
 
+    def set_tilt(tilt_deg)
+      freenect_set_tilt_degs(device, tilt_deg)
+    end
+    
     def video_buffer
       if @video_buffer and @video_buf_size
         @video_buffer.read_string_length(@video_buf_size)

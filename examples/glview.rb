@@ -20,7 +20,6 @@ end
 play = Proc.new do
 end
 
-
 reshape = Proc.new do |w, h|
 	glViewport(0, 0, w,  h)
 	glMatrixMode(GL_PROJECTION)
@@ -29,10 +28,29 @@ reshape = Proc.new do |w, h|
 	glMatrixMode(GL_MODELVIEW)
 end
 
-keyboard = Proc.new do |key, x, y|
-end
+puts "Opening Kinect"
+device = Freenect.init.device
+device.set_video_mode(Freenect.find_video_mode(:freenect_resolution_medium, :freenect_video_rgb))
+device.set_depth_mode(Freenect.find_video_mode(:freenect_resolution_medium, :freenect_depth_11bit))
 
-STDERR.puts "opening kinect"
+keyboard = Proc.new do |key, x, y|
+	case (key.chr)
+  when ('0'..'6')
+    device.set_led key.chr.to_i
+  when 'w'
+    device.set_tilt (tilt = [25, tilt + 5].min)
+  when 'x'
+    device.set_tilt (tilt = [-25, tilt - 5].max)
+  when 's'
+    device.set_tilt (tilt = 0)
+  when 'e'
+    device.set_led :led_off
+    device.stop_video
+    device.stop_depth
+    device.close
+    exit(0)
+	end
+end
 
 glutInit
 glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH)
