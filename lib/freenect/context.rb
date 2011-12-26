@@ -27,7 +27,6 @@ module Freenect
     end
 
     def set_log_level(log_level)
-      raise(ArgumentError, "#{log_level} is invalid depth format") unless Freenect::FREENECT_LOGLEVEL.symbols.include?(log_level)
       freenect_set_log_level(context, loglevel)
     end
 

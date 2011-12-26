@@ -29,13 +29,6 @@ module Freenect
       :freenect_resolution_dummy,  2147483647   # Dummy value to force enum to be 32 bits wide
     )
 
-    # video size by resolution
-    FREENECT_VIDEO_SIZE = {
-      :freenect_resolution_low    => [320, 240],   # QVGA - 320x240 
-      :freenect_resolution_medium => [640, 480],   # VGA  - 640x480 
-      :freenect_resolution_high   => [1280, 1024]  # SXGA - 1280x1024
-    }
-    
     # Enumeration of video frame information states.
     # See http://openkinect.org/wiki/Protocol_Documentation#RGB_Camera for more information.
     FREENECT_VIDEO_FORMAT = enum(
@@ -323,13 +316,21 @@ module Freenect
     # @return 0 on success, < 0 on error
     attach_function :freenect_set_led, [:freenect_device, FREENECT_LED_OPTIONS], :int
 
+    # Get the frame descriptor of the current video mode for the specified
+    # freenect device.
+    #
+    # @param dev Which device to return the currently-set video mode for
+    #
+    # @return A freenect_frame_mode describing the current video mode of the specified device
+    attach_function :freenect_get_current_video_mode, [:freenect_device], FreenectFrameMode.by_value
+
     # Get the frame descriptor of the current depth mode for the specified
     # freenect device.
     #
     # @param dev Which device to return the currently-set depth mode for
     #
     # @return A freenect_frame_mode describing the current depth mode of the specified device
-    attach_function :freenect_get_current_depth_mode, [:freenect_device], FreenectFrameMode
+    attach_function :freenect_get_current_depth_mode, [:freenect_device], FreenectFrameMode.by_value
 
     # Sets the current video mode for the specified device.  If the
     # freenect_frame_mode specified is not one provided by the driver
@@ -341,7 +342,7 @@ module Freenect
     # @param mode Frame mode to set
     #
     # @return 0 on success, < 0 if error
-    attach_function :freenect_set_video_mode, [:freenect_device, FreenectFrameMode], :int
+    attach_function :freenect_set_video_mode, [:freenect_device, FreenectFrameMode.by_value], :int
 
     # Sets the current depth mode for the specified device.  The mode
     # cannot be changed while streaming is active.
@@ -350,7 +351,7 @@ module Freenect
     # @param mode Frame mode to set
     #
     # @return 0 on success, < 0 if error
-    attach_function :freenect_set_depth_mode, [:freenect_device, FreenectFrameMode], :int
+    attach_function :freenect_set_depth_mode, [:freenect_device, FreenectFrameMode.by_value], :int
   
     # Get the axis-based gravity adjusted accelerometer state, as laid
     # out via the accelerometer data sheet, which is available at
@@ -374,7 +375,7 @@ module Freenect
     # @param n Which of the supported modes to return information about
     #
     # @return A freenect_frame_mode describing the nth video mode
-    attach_function :freenect_get_video_mode, [:int], FreenectFrameMode
+    attach_function :freenect_get_video_mode, [:int], FreenectFrameMode.by_value
   
     # Get the number of depth camera modes supported by the driver.  This includes both RGB and IR modes.
     #
@@ -387,7 +388,16 @@ module Freenect
     # @param n Which of the supported modes to return information about
     #
     # @return A freenect_frame_mode describing the nth depth mode
-    attach_function :freenect_get_depth_mode, [:int], FreenectFrameMode
+    attach_function :freenect_get_depth_mode, [:int], FreenectFrameMode.by_value
+  
+    # Convenience function to return a mode descriptor matching the
+    # specified resolution and video camera pixel format, if one exists.
+    #
+    # @param res Resolution desired
+    # @param fmt Pixel format desired
+    #
+    # @return A freenect_frame_mode that matches the arguments specified, if such a valid mode exists; otherwise, an invalid freenect_frame_mode.
+    attach_function :freenect_find_video_mode,  [FREENECT_RESOLUTION, FREENECT_VIDEO_FORMAT], FreenectFrameMode.by_value
   
     # Convenience function to return a mode descriptor matching the
     # specified resolution and depth camera pixel format, if one exists.
@@ -396,7 +406,7 @@ module Freenect
     # @param fmt Pixel format desired
     #
     # @return A freenect_frame_mode that matches the arguments specified, if such a valid mode exists; otherwise, an invalid freenect_frame_mode.
-    attach_function :freenect_find_depth_mode, [FREENECT_RESOLUTION, FREENECT_DEPTH_FORMAT], FreenectFrameMode
+    attach_function :freenect_find_depth_mode, [FREENECT_RESOLUTION, FREENECT_DEPTH_FORMAT], FreenectFrameMode.by_value
   
     # Synchronous video function, starts the runloop if it isn't running
     # 

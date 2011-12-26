@@ -3,7 +3,6 @@ module Freenect
   FREENECT_COUNTS_PER_G     = Driver::FREENECT_COUNTS_PER_G
   FREENECT_DEVICE_FLAGS     = Driver::FREENECT_DEVICE_FLAGS
   FREENECT_RESOLUTION       = Driver::FREENECT_RESOLUTION
-  FREENECT_VIDEO_SIZE       = Driver::FREENECT_VIDEO_SIZE
   FREENECT_VIDEO_FORMAT     = Driver::FREENECT_VIDEO_FORMAT
   FREENECT_DEPTH_FORMAT     = Driver::FREENECT_DEPTH_FORMAT
   FREENECT_LED_OPTIONS      = Driver::FREENECT_LED_OPTIONS
@@ -31,6 +30,10 @@ module Freenect
       def get_video_mode(mode_id)
         freenect_get_video_mode(mode_id)
       end
+      
+      def find_video_mode(resolution, format)
+        freenect_find_video_mode(resolution, format)
+      end
 
       def get_video(idx=0, fmt=:freenect_video_rgb)
         video_p = pointer(:pointer)
@@ -49,6 +52,10 @@ module Freenect
 
       def get_depth_mode(mode_id)
         freenect_get_depth_mode(mode_id)
+      end
+
+      def find_depth_mode(resolution, format)
+        freenect_find_depth_mode(resolution, format)
       end
         
       def get_depth(idx=0, fmt=:freenect_depth_11bit)
@@ -92,7 +99,6 @@ module Freenect
       end
 
       def set_led(led_option, idx=0)
-        raise(ArgumentError, "#{led_option} is invalid depth format") unless Freenect::FREENECT_LED_OPTIONS.symbols.include?(led_option)
         freenect_sync_set_led(Freenect::FREENECT_LED_OPTIONS[:led_option], idx)
       end
       

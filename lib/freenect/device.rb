@@ -7,7 +7,7 @@ module Freenect
     attr_reader :contect, :device, :closed, :depth_format, :video_format
     
     def initialize(context, idx=0)
-      dev_p = MemoryPointer.new(:pointer)
+      dev_p = FFI::MemoryPointer.new(:pointer)
       @context = context
       if freenect_open_device(@context.context, dev_p, idx) != 0
         raise DeviceError, "unable to open device #{idx} from #{ctx.inspect}"
@@ -66,30 +66,23 @@ module Freenect
       end
     end
 
-    def set_depth_format(fmt)
-      raise(ArgumentError, "#{fmt} is invalid depth format") unless Freenect::FREENECT_DEPTH_FORMAT.symbols.include?(fmt)
-      ret = freenect_set_depth_format(device, Freenect::FREENECT_DEPTH_FORMAT[fmt])
-      if (ret== 0)
-        init_depth_buffer(fmt)
-        @depth_format = fmt
-      else
-        raise DeviceError, "Error calling freenect_set_depth_format(self, #{fmt})"
-      end
+    def get_current_video_mode
+      freenect_get_current_video_mode(device)
     end
 
-    def set_video_format(fmt)
-      raise(ArgumentError, "#{fmt} is invalid depth format") unless Freenect::FREENECT_VIDEO_FORMAT.symbols.include?(fmt)
-      ret = freenect_set_video_format(device, Freenect::FREENECT_VIDEO_FORMAT[fmt])
-      if (ret== 0)
-        init_video_buffer(fmt)
-        @video_format = fmt
-      else
-        raise DeviceError, "Error calling freenect_set_video_format(self, #{fmt})"
-      end
+    def set_video_mode(frame_mode)
+      freenect_set_video_mode(device, frame_mode)
+    end
+    
+    def get_current_depth_mode
+      freenect_get_current_depth_mode(device)
     end
 
+    def set_depth_mode(frame_mode)
+      freenect_set_depth_mode(device, frame_mode)
+    end
+    
     def set_led(led_option)
-      raise(ArgumentError, "#{led_option} is invalid depth format") unless Freenect::FREENECT_LED_OPTIONS.symbols.include?(led_option)
       freenect_set_led(device, Freenect::FREENECT_LED_OPTIONS[led_option]) == 0
     end
 
@@ -100,8 +93,8 @@ module Freenect
     end
 
     def depth_buffer
-      if @depth_buffer and @depth_buf_size
-        @depth_buffer.read_string_length(@depth_buf_size)
+      if @depth_buffer and @depth_buffer_size
+        @depth_buffer.read_string_length(@depth_buffer_size)
       end
     end
 
@@ -111,7 +104,7 @@ module Freenect
         if (sz = lookup_depth_size(fmt)).nil?
           raise(ArgumentError, "invalid depth format: #{fmt.inspect}")
         end
-        @depth_buf_size = sz
+        @depth_buffer_size = sz
         @depth_buffer = MemoryPointer.new(@depth_buf_size)
         freenect_set_depth_buffer(device, @depth_buffer)
       end
@@ -120,7 +113,7 @@ module Freenect
         if (sz = Freenect.lookup_video_size(fmt)).nil?
           raise(FormatError, "invalid video format: #{fmt.inspect}")
         end
-        @video_buf_size = sz
+        @video_buffer_size = sz
         @video_buffer = MemoryPointer.new(@video_buf_size)
         freenect_set_video_buffer(device, @video_buffer)
       end
@@ -132,7 +125,7 @@ module Freenect
       end
 
       def set_user
-        @objid_p = MemoryPointer.new(:long_long)
+        @objid_p = FFI::MemoryPointer.new(:long_long)
         @objid_p.write_long_long(object_id)
         freenect_set_user(device, @objid_p)
       end
