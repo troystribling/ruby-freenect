@@ -4,23 +4,32 @@ require 'freenect'
 require 'opengl'
 include Gl,Glu,Glut
 
-display = Proc.new do
+puts "Opening Kinect"
+context = Freenect.init
+tilt = 0
+device = context.get_device
+device.set_video_mode(Freenect.find_video_mode(:freenect_resolution_medium, :freenect_video_rgb))
+device.set_depth_mode(Freenect.find_depth_mode(:freenect_resolution_medium, :freenect_depth_11bit))
+device.set_tilt(0)
+device.start_video
+device.start_depth
+
+display = lambda do
 	glClear(GL_COLOR_BUFFER_BIT)
 	glColor(1.0, 1.0, 1.0)
-
-  # flip the image
-  # glRasterPos2i(0, 480)
-  #   glPixelZoom(1, -1)
-  #   glDrawPixels(640, 480, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, $dev.depth_buffer)
-  #   glRasterPos2i(640, 480)
-  #   glDrawPixels(640, 480, GL_RGB, GL_UNSIGNED_BYTE, $dev.video_buffer)
-  # glutSwapBuffers()
+  glRasterPos2i(0, 480)
+  glPixelZoom(1, -1)
+  glDrawPixels(640, 480, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, device.depth_buffer)
+  glRasterPos2i(640, 480)
+  glDrawPixels(640, 480, GL_RGB, GL_UNSIGNED_BYTE, device.video_buffer)
+  glutSwapBuffers()
 end
 
-play = Proc.new do
+play = lambda do
+  glutPostRedisplay() if context.process_events >= 0
 end
 
-reshape = Proc.new do |w, h|
+reshape = lambda do |w, h|
 	glViewport(0, 0, w,  h)
 	glMatrixMode(GL_PROJECTION)
 	glLoadIdentity()
@@ -28,26 +37,22 @@ reshape = Proc.new do |w, h|
 	glMatrixMode(GL_MODELVIEW)
 end
 
-puts "Opening Kinect"
-device = Freenect.init.device
-device.set_video_mode(Freenect.find_video_mode(:freenect_resolution_medium, :freenect_video_rgb))
-device.set_depth_mode(Freenect.find_video_mode(:freenect_resolution_medium, :freenect_depth_11bit))
-
-keyboard = Proc.new do |key, x, y|
+keyboard = lambda do |key, x, y|
 	case (key.chr)
-  when ('0'..'6')
-    device.set_led key.chr.to_i
-  when 'w'
+  when ('0'..'5')
+    device.set_led Freenect::FREENECT_LED_OPTIONS.symbols[key.chr.to_i]
+  when 'u'
     device.set_tilt (tilt = [25, tilt + 5].min)
-  when 'x'
+  when 'd'
     device.set_tilt (tilt = [-25, tilt - 5].max)
-  when 's'
+  when 'c'
     device.set_tilt (tilt = 0)
   when 'e'
     device.set_led :led_off
     device.stop_video
     device.stop_depth
-    device.close
+    context.close
+    puts "Closing Kinect"
     exit(0)
 	end
 end

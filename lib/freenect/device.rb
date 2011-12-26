@@ -25,7 +25,6 @@ module Freenect
         if freenect_close_device(device) == 0
           @closed = true
         end
-        context.close
       end
     end
 
@@ -73,6 +72,7 @@ module Freenect
 
     def set_video_mode(frame_mode)
       @video_mode = frame_mode
+      set_video_buffer
       freenect_set_video_mode(device, frame_mode)
     end
     
@@ -82,6 +82,7 @@ module Freenect
 
     def set_depth_mode(frame_mode)
       @depth_mode = frame_mode
+      set_depth_buffer
       freenect_set_depth_mode(device, frame_mode)
     end
     
@@ -94,36 +95,40 @@ module Freenect
     end
     
     def video_buffer
-      if @video_buffer and @video_buf_size
-        @video_buffer.read_string_length(@video_buf_size)
-      end
+      video_mode_valid? ? @video_buffer.read_string_length(video_mode[:bytes]) : []
     end
 
     def depth_buffer
-      if @depth_buffer and @depth_buffer_size
-        @depth_buffer.read_string_length(@depth_buffer_size)
+      depth_mode_valid? ?  @depth_buffer.read_string_length(depth_mode[:bytes]) : []
+    end
+
+    def video_mode_valid?
+      video_mode and (video_mode[:is_valid] == 1)
+    end
+
+    def depth_mode_valid?
+      depth_mode and (depth_mode[:is_valid] == 1)
+    end
+
+    def set_depth_buffer
+      if depth_mode_valid?
+        @depth_buffer = FFI::MemoryPointer.new(depth_mode[:bytes])
+        freenect_set_depth_buffer(device, @depth_buffer)
+      else
+        raise DeviceError, "depth_mode is invalid"
       end
     end
 
-    private
-
-      def init_depth_buffer(fmt)
-        if (sz = lookup_depth_size(fmt)).nil?
-          raise(ArgumentError, "invalid depth format: #{fmt.inspect}")
-        end
-        @depth_buffer_size = sz
-        @depth_buffer = MemoryPointer.new(@depth_buf_size)
-        freenect_set_depth_buffer(device, @depth_buffer)
-      end
-
-      def init_video_buffer(fmt)
-        if (sz = Freenect.lookup_video_size(fmt)).nil?
-          raise(FormatError, "invalid video format: #{fmt.inspect}")
-        end
-        @video_buffer_size = sz
-        @video_buffer = MemoryPointer.new(@video_buf_size)
+    def set_video_buffer
+      if video_mode_valid?
+        @video_buffer = FFI::MemoryPointer.new(video_mode[:bytes])
         freenect_set_video_buffer(device, @video_buffer)
+      else
+        raise DeviceError, "video_mode is invalid"
       end
+    end
+    
+    private
 
       def get_user
         unless (p=freenect_get_user(device)).null?

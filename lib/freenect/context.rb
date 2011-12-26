@@ -11,7 +11,7 @@ module Freenect
       elsif ctx_p.null?
         raise ContextError, "freenect_init() produced a NULL context"
       end
-      @context, @closed = ctx_p.read_pointer, false
+      @context, @closed, @devices = ctx_p.read_pointer, false, {}
     end
 
     def context
@@ -22,8 +22,12 @@ module Freenect
       freenect_num_devices(context)
     end
 
+    def devices
+      @devices.values
+    end
+    
     def get_device(idx=0)
-      @device ||= Device.new(self, idx=0)
+      @devices[idx] ||= Device.new(self, idx=0)
     end
 
     def set_log_level(log_level)
@@ -40,6 +44,7 @@ module Freenect
 
     def close
       unless closed?
+        devices.each{|d| d.close}
         raise(ContextError, "freenect_shutdown() returned nonzero") if freenect_shutdown(@context) != 0
         @closed = true
       end
