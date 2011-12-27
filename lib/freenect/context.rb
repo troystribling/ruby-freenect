@@ -31,7 +31,7 @@ module Freenect
     end
 
     def set_log_level(log_level)
-      freenect_set_log_level(context, loglevel)
+      freenect_set_log_level(context, log_level)
     end
 
     def set_log_callback(&block)

@@ -35,15 +35,10 @@ module Freenect
         freenect_find_video_mode(resolution, format)
       end
 
-      def get_video(idx=0, fmt=:freenect_video_rgb)
-        video_p = pointer(:pointer)
-        timestamp_p = pointer(:uint32)
-        ret = freenect_sync_get_video(video_p, timestamp_p, idx, Freenect.lookup_video_format(fmt))
-        if ret != 0
-          raise("Unknown error in freenect_sync_get_video()")
-        else
-          [timestamp_p.read_int, video_p.read_string_length(buf_size)]
-        end
+      def get_video(video_mode, idx=0)
+        video_p, timestamp_p = pointer(:pointer, 1), pointer(:uint32)
+        freenect_sync_get_video(video_p, timestamp_p, idx, Freenect::FREENECT_VIDEO_FORMAT[video_mode[:format][:video_format]])
+        video_p.read_pointer.read_string_length(video_mode[:bytes])
       end
 
       def get_depth_mode_count
@@ -58,15 +53,10 @@ module Freenect
         freenect_find_depth_mode(resolution, format)
       end
         
-      def get_depth(idx=0, fmt=:freenect_depth_11bit)
-        depth_p = pointer(:pointer)
-        timestamp_p = pointer(:uint32)
-        ret = freenect_sync_get_depth(depth_p, timestamp_p, idx, Freenect.lookup_depth_format(fmt))
-        if ret != 0
-          raise("Unknown error in freenect_sync_get_depth()") # TODO is errno set or something here?
-        else
-          return [timestamp_p.read_int, video_p.read_string_length(buf_size)]
-        end
+      def get_depth(depth_mode, idx=0)
+        depth_p, timestamp_p = pointer(:pointer), pointer(:uint32)
+        freenect_sync_get_depth(depth_p, timestamp_p, idx, Freenect.lookup_depth_format(fmt))
+        depth_p.read_string_length(depth_mode[:bytes])
       end
 
       def set_tilt(angle, idx=0)
@@ -99,7 +89,7 @@ module Freenect
       end
 
       def set_led(led_option, idx=0)
-        freenect_sync_set_led(Freenect::FREENECT_LED_OPTIONS[:led_option], idx)
+        freenect_sync_set_led(Freenect::FREENECT_LED_OPTIONS[led_option], idx)
       end
       
       def stop
@@ -108,8 +98,8 @@ module Freenect
 
       private
       
-        def pointer(type)
-          FFI::MemoryPointer.new(type)
+        def pointer(*args)
+          FFI::MemoryPointer.new(*args)
         end
       
     end

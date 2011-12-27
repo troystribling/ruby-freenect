@@ -18,11 +18,9 @@ device.start_depth
 display = lambda do
 	glClear(GL_COLOR_BUFFER_BIT)
 	glColor(1.0, 1.0, 1.0)
-  # glRasterPos2i(0, 480)
-  # glPixelZoom(1, -1)
+  glRasterPos2i(0, 480)
+  glPixelZoom(1, -1)
   glDrawPixels(640, 480, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, device.depth_buffer)
-  # glRasterPos2i(640, 480)
-  glDrawPixels(640, 480, GL_RGB, GL_UNSIGNED_BYTE, device.video_buffer)
   glutSwapBuffers()
 end
 
@@ -50,6 +48,7 @@ keyboard = lambda do |key, x, y|
     device.set_tilt (tilt = 0)
   when 'e'
     device.set_led :led_off
+    device.set_tilt (tilt = 0)
     device.stop_video
     device.stop_depth
     context.close
@@ -60,7 +59,7 @@ end
 
 glutInit
 glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH)
-glutInitWindowSize(1280, 480)
+glutInitWindowSize(640, 480)
 glutInitWindowPosition(100, 100)
 glutCreateWindow($0)
 

@@ -1,16 +1,6 @@
-$: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
+$: << File.expand_path(File.join(File.dirname(__FILE__), "../lib")) << File.expand_path(File.dirname(__FILE__))
 require 'freenect'
-
-def print_frame_mode(frame_mode)
-  puts "  Resolution:             #{frame_mode[:resolution]}"
-  puts "  Bytes:                  #{frame_mode[:bytes]}"
-  puts "  Width:                  #{frame_mode[:width]}"
-  puts "  Height:                 #{frame_mode[:height]}"
-  puts "  Data Bits Per Pixel:    #{frame_mode[:data_bits_per_pixel]}"
-  puts "  Padding Bits Per Pixel: #{frame_mode[:padding_bits_per_pixel]}"
-  puts "  Framerate:              #{frame_mode[:framerate]}"
-  puts "  Is Valid:               #{frame_mode[:is_valid]}"
-end
+require 'tools'
 
 context = Freenect.init
 device = context.get_device
