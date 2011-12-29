@@ -18,9 +18,9 @@ device.start_depth
 display = lambda do
 	glClear(GL_COLOR_BUFFER_BIT)
 	glColor(1.0, 1.0, 1.0)
-  glRasterPos2i(0, 480)
-  glPixelZoom(1, -1)
-  glDrawPixels(640, 480, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, device.depth_buffer)
+  # glRasterPos2i(0, 480)
+  # glPixelZoom(1, -1)
+  glDrawPixels(640, 480, GL_RGB, GL_UNSIGNED_BYTE, device.video_buffer)
   glutSwapBuffers()
 end
 
@@ -59,7 +59,7 @@ end
 
 glutInit
 glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH)
-glutInitWindowSize(640, 480)
+glutInitWindowSize(1280, 480)
 glutInitWindowPosition(100, 100)
 glutCreateWindow($0)
 

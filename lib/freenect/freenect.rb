@@ -38,7 +38,7 @@ module Freenect
       def get_video(video_mode, idx=0)
         video_p, timestamp_p = pointer(:pointer, 1), pointer(:uint32)
         freenect_sync_get_video(video_p, timestamp_p, idx, Freenect::FREENECT_VIDEO_FORMAT[video_mode[:format][:video_format]])
-        video_p.read_pointer.read_string_length(video_mode[:bytes])
+        video_p.read_pointer.get_bytes(0, video_mode[:bytes])
       end
 
       def get_depth_mode_count

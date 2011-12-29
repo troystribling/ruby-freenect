@@ -49,3 +49,23 @@ def keyboard(device, context)
     end
   end
 end
+
+def sync_keyboard
+  tilt = 0
+  lambda do |key, x, y|
+  	case (key.chr)
+    when ('0'..'5')
+      Freenect.set_led Freenect::FREENECT_LED_OPTIONS.symbols[key.chr.to_i]
+    when 'u'
+      Freenect.set_tilt (tilt = [25, tilt + 5].min)
+    when 'd'
+      Freenect.set_tilt (tilt = [-25, tilt - 5].max)
+    when 'c'
+      Freenect.set_tilt (tilt = 0)
+    when 'e'
+      Freenect.set_led :led_off
+      Freenect.set_tilt (tilt = 0)
+      exit(0)
+    end
+  end
+end
