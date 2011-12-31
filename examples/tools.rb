@@ -1,5 +1,14 @@
 def print_video_mode(frame_mode)
   puts "  Format:                 #{frame_mode[:format][:video_format]}"
+  print_frame_mode(frame_mode)
+end
+
+def print_depth_mode(frame_mode)
+  puts "  Format:                 #{frame_mode[:format][:depth_format]}"
+  print_frame_mode(frame_mode)
+end
+
+def print_frame_mode(frame_mode)
   puts "  Resolution:             #{frame_mode[:resolution]}"
   puts "  Bytes:                  #{frame_mode[:bytes]}"
   puts "  Width:                  #{frame_mode[:width]}"
@@ -38,9 +47,9 @@ def keyboard(device, context)
       device.set_tilt (tilt = [-25, tilt - 5].max)
     when 'c'
       device.set_tilt (tilt = 0)
-    when 'e'
+    when 'q'
       device.set_led :led_off
-      device.set_tilt (tilt = 0)
+      device.set_tilt 0
       device.stop_video
       device.stop_depth
       context.close
@@ -62,9 +71,11 @@ def sync_keyboard
       Freenect.set_tilt (tilt = [-25, tilt - 5].max)
     when 'c'
       Freenect.set_tilt (tilt = 0)
-    when 'e'
+    when 'q'
       Freenect.set_led :led_off
-      Freenect.set_tilt (tilt = 0)
+      Freenect.set_tilt 0
+      Freenect.stop
+      puts "Closing Kinect"
       exit(0)
     end
   end

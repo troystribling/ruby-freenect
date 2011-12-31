@@ -13,8 +13,7 @@ puts "Supported Video Modes"
 video_mode_count.times do |mode_id|
   frame_mode = Freenect.freenect_get_video_mode(mode_id)
   puts "Mode ID: #{mode_id}"
-  puts "  Format:                 #{frame_mode[:format][:video_format]}"
-  print_frame_mode(frame_mode)
+  print_video_mode(frame_mode)
 end 
 
 puts "Current Depth Mode"
@@ -27,32 +26,27 @@ puts "Supported Depth Modes"
 depth_mode_count.times do |mode_id|
   frame_mode = Freenect.freenect_get_depth_mode(mode_id)
   puts "Mode ID: #{mode_id}"
-  puts "  Format:                 #{frame_mode[:format][:depth_format]}"
-  print_frame_mode(frame_mode)
+  print_depth_mode(frame_mode)
 end 
 
 puts "Find Video Mode with Resoultion ':freenect_resolution_medium' and Format ':freenect_video_rgb'"
 frame_mode = Freenect.find_video_mode(:freenect_resolution_medium, :freenect_video_rgb)
-puts "  Format:                 #{frame_mode[:format][:video_format]}"
-print_frame_mode(frame_mode)
+print_video_mode(frame_mode)
 
 puts "SET Video Mode with Resoultion ':freenect_resolution_medium' and Format ':freenect_video_rgb'"
 device.set_video_mode(frame_mode)
 
 puts "Current Video Mode"
 frame_mode = device.get_current_video_mode
-puts "  Format:                 #{frame_mode[:format][:video_format]}"
-print_frame_mode(frame_mode)
+print_video_mode(frame_mode)
 
 puts "Find Depth Mode with Resoultion ':freenect_resolution_medium' and Format ':freenect_depth_11bit'"
 frame_mode = Freenect.find_depth_mode(:freenect_resolution_medium, :freenect_depth_11bit)
-puts "  Format:                 #{frame_mode[:format][:depth_format]}"
-print_frame_mode(frame_mode)
+print_depth_mode(frame_mode)
 
 puts "SET Depth Mode with Resoultion ':freenect_resolution_medium' and Format ':freenect_depth_11bit'"
 device.set_depth_mode(frame_mode)
 
 puts "Current Depth Mode"
 frame_mode = device.get_current_depth_mode
-puts "  Format:                 #{frame_mode[:format][:depth_format]}"
-print_frame_mode(frame_mode)
+print_depth_mode(frame_mode)

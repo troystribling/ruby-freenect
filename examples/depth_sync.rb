@@ -6,20 +6,20 @@ require 'opengl'
 include Gl,Glu,Glut
 
 puts "Opening Kinect"
-video_mode = Freenect.find_video_mode(:freenect_resolution_medium, :freenect_video_rgb)
+depth_mode = Freenect.find_depth_mode(:freenect_resolution_medium, :freenect_depth_11bit)
 
-print_video_mode(video_mode)
+print_depth_mode(depth_mode)
 
 display = lambda do
-  video_buffer = Freenect.get_video(video_mode)
+  depth_buffer = Freenect.get_depth(depth_mode)
   glPixelZoom(1.0, -1.0)
   glRasterPos2i(-1, 1)
-  glDrawPixels(video_mode[:width], video_mode[:height], GL_RGB, GL_UNSIGNED_BYTE, video_buffer)
+  glDrawPixels(depth_mode[:width], depth_mode[:height], GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, depth_buffer)
   glutSwapBuffers()
 end
 
 glutInit
-glutInitWindowSize(video_mode[:width], video_mode[:height])
+glutInitWindowSize(depth_mode[:width], depth_mode[:height])
 glutInitWindowPosition(100, 100)
 glutCreateWindow($0)
 
@@ -31,4 +31,3 @@ glClearColor(0.0, 0.0, 0.0, 0.0)
 glClear(GL_COLOR_BUFFER_BIT)
 
 glutMainLoop
-

@@ -54,9 +54,9 @@ module Freenect
       end
         
       def get_depth(depth_mode, idx=0)
-        depth_p, timestamp_p = pointer(:pointer), pointer(:uint32)
-        freenect_sync_get_depth(depth_p, timestamp_p, idx, Freenect.lookup_depth_format(fmt))
-        depth_p.read_string_length(depth_mode[:bytes])
+        depth_p, timestamp_p = pointer(:pointer, 1), pointer(:uint32)
+        freenect_sync_get_depth(depth_p, timestamp_p, idx, Freenect::FREENECT_DEPTH_FORMAT[depth_mode[:format][:depth_format]])
+        depth_p.read_pointer.get_bytes(0, depth_mode[:bytes])
       end
 
       def set_tilt(angle, idx=0)
