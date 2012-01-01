@@ -5,7 +5,7 @@ require 'tools'
 require 'opengl'
 include Gl,Glu,Glut
 
-puts "Opening Kinect"
+puts "#{Freenect.get_device_count} Kinect found"
 video_mode = Freenect.find_video_mode(:freenect_video_rgb)
 
 display = lambda do

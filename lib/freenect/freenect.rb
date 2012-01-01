@@ -18,12 +18,34 @@ module Freenect
     end
   end
   
+  class Context        
+    include Freenect::Driver
+    attr_reader :context
+    def initialize
+      context_p = FFI::MemoryPointer.new(:pointer)
+      freenect_init(context_p, nil)
+      @context = context_p.read_pointer
+    end
+    def get_device_count
+      freenect_num_devices(context)
+    end
+    def close
+      freenect_shutdown(context)
+    end    
+  end
+  
   class Interface
     extend Freenect::Driver
 
     @video_mode, @depth_mode = {}, {}
     
     class << self
+            
+      def get_device_count
+        context = Freenect::Context.new
+        count = context.get_device_count
+        context.close; count
+      end
                   
       def get_video_mode_count
         freenect_get_video_mode_count
