@@ -2,10 +2,10 @@
 
 FFI-based Ruby wrapper for the OpenKinect library. ruby-freenect supports the following,
 
-  * Video, IR and Depth
-  * LED
-  * Tilt
-  * Accelerometer
+* Video, IR and Depth
+* LED
+* Tilt
+* Accelerometer
 
 == Interface
 
