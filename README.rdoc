@@ -131,7 +131,7 @@ The supported values for LED Option are,
 * <b>:led_red</b>               Turn LED to Red
 * <b>:led_yellow</b>            Turn LED to Yellow
 * <b>:led_blink_green</b>       Make LED blink Green
-* <b>"led_blink_red_yellow</b>  Make LED blink Red/Yellow
+* <b>:led_blink_red_yellow</b>  Make LED blink Red/Yellow
 
 === Miscellaneous methods
 
