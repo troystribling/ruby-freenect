@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "freenect4r"
+    gem.name = "ruby-freenect"
     gem.summary = gem.description = %Q{Ruby bindings for the libfreenect Kinect driver}
     gem.homepage = "https://github.com/troystribling/freenect4r"
     gem.authors = ["Troy Stribling"]
