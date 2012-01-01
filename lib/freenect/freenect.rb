@@ -56,7 +56,7 @@ module Freenect
       end
       
       def get_current_video_mode(idx=0)
-        @video_mode[idx]
+        (@video_mode || {})[idx]
       end
       
       def find_video_mode(format=:freenect_video_rgb, resolution=:freenect_resolution_medium)
@@ -79,7 +79,7 @@ module Freenect
       end
 
       def get_current_depth_mode(idx=0)
-        @depth_mode[idx]
+        (@depth_mode || {})[idx]
       end
 
       def find_depth_mode(format=:freenect_depth_11bit, resolution=:freenect_resolution_medium)
