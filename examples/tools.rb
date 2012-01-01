@@ -35,30 +35,6 @@ def check_for_kinect(context)
   end
 end
 
-def keyboard(device, context)
-  tilt = 0
-  lambda do |key, x, y|
-  	case (key.chr)
-    when ('0'..'5')
-      device.set_led Freenect::FREENECT_LED_OPTIONS.symbols[key.chr.to_i]
-    when 'u'
-      device.set_tilt (tilt = [25, tilt + 5].min)
-    when 'd'
-      device.set_tilt (tilt = [-25, tilt - 5].max)
-    when 'c'
-      device.set_tilt (tilt = 0)
-    when 'q'
-      device.set_led :led_off
-      device.set_tilt 0
-      device.stop_video
-      device.stop_depth
-      context.close
-      puts "Closing Kinect"
-      exit(0)
-    end
-  end
-end
-
 def sync_keyboard
   tilt = 0
   lambda do |key, x, y|
@@ -71,6 +47,17 @@ def sync_keyboard
       Freenect.set_tilt (tilt = [-25, tilt - 5].max)
     when 'c'
       Freenect.set_tilt (tilt = 0)
+    when 'm'
+      depth_mode = Freenect.get_current_depth_mode
+      if depth_mode
+        puts "Current Depth Mode"
+        print_depth_mode(depth_mode)
+      end
+      video_mode = Freenect.get_current_video_mode
+      if video_mode
+        puts "Current Video Mode"
+        print_video_mode(video_mode)
+      end
     when 'q'
       Freenect.set_led :led_off
       Freenect.set_tilt 0

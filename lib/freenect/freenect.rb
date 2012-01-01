@@ -21,8 +21,10 @@ module Freenect
   class Interface
     extend Freenect::Driver
 
+    @video_mode, @depth_mode = {}, {}
+    
     class << self
-            
+                  
       def get_video_mode_count
         freenect_get_video_mode_count
       end
@@ -31,12 +33,17 @@ module Freenect
         freenect_get_video_mode(mode_id)
       end
       
-      def find_video_mode(resolution, format)
+      def get_current_video_mode(idx=0)
+        @video_mode[idx]
+      end
+      
+      def find_video_mode(format=:freenect_video_rgb, resolution=:freenect_resolution_medium)
         freenect_find_video_mode(resolution, format)
       end
 
       def get_video(video_mode, idx=0)
         video_p, timestamp_p = pointer(:pointer, 1), pointer(:uint32)
+        set_current_video_mode(video_mode, idx)
         freenect_sync_get_video(video_p, timestamp_p, idx, Freenect::FREENECT_VIDEO_FORMAT[video_mode[:format][:video_format]])
         video_p.read_pointer.get_bytes(0, video_mode[:bytes])
       end
@@ -49,12 +56,17 @@ module Freenect
         freenect_get_depth_mode(mode_id)
       end
 
-      def find_depth_mode(resolution, format)
+      def get_current_depth_mode(idx=0)
+        @depth_mode[idx]
+      end
+
+      def find_depth_mode(format=:freenect_depth_11bit, resolution=:freenect_resolution_medium)
         freenect_find_depth_mode(resolution, format)
       end
         
       def get_depth(depth_mode, idx=0)
         depth_p, timestamp_p = pointer(:pointer, 1), pointer(:uint32)
+        set_current_depth_mode(depth_mode, idx)
         freenect_sync_get_depth(depth_p, timestamp_p, idx, Freenect::FREENECT_DEPTH_FORMAT[depth_mode[:format][:depth_format]])
         depth_p.read_pointer.get_bytes(0, depth_mode[:bytes])
       end
@@ -98,6 +110,14 @@ module Freenect
 
       private
       
+        def set_current_video_mode(video_mode, idx)
+          (@video_mode ||={})[idx] = video_mode
+        end
+
+        def set_current_depth_mode(depth_mode, idx)
+          (@depth_mode ||= {})[idx] = depth_mode
+        end
+         
         def pointer(*args)
           FFI::MemoryPointer.new(*args)
         end

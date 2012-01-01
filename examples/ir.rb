@@ -6,9 +6,7 @@ require 'opengl'
 include Gl,Glu,Glut
 
 puts "Opening Kinect"
-video_mode = Freenect.find_video_mode(:freenect_resolution_medium, :freenect_video_ir_10bit)
-
-print_video_mode(video_mode)
+video_mode = Freenect.find_video_mode(:freenect_video_ir_10bit)
 
 display = lambda do
   video_buffer = Freenect.get_video(video_mode)

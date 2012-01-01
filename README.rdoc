@@ -1,91 +1,63 @@
-= ffi-libfreenect
+= ruby-freenect
 
-FFI-based Ruby wrapper for the OpenKinect libfreenect library.
+FFI-based Ruby wrapper for the OpenKinect library. ruby-freenect provide the following interfaces,
+
+  * Video, IR and Depth
+  * LED
+  * Tilt
+  * Accelerometer
 
 == Requirements
-  * ffi >= 0.5.0
-  * libfreenect - see: http://openkinect.org/wiki/Getting_Started
 
-== Installation
+  * ffi >= 1.0.11
+  * libfreenect 
+  * Ubuntu 10.04 32-Bit
 
-===
+== Install libfreenect
 
-Make sure you have a correct installation of libfreenect before beginning. See: http://openkinect.org/wiki/Getting_Started
+If you have problems visit http://openkinect.org/wiki/Getting_Started#Manual_Build_on_Linux
 
-=== via Gem
+=== Prerequisites
 
-    (sudo)? gem install ffi-libfreenect
+  sudo apt-get install cmake libglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev
 
-=== via Rake
+  sudo apt-get install autoconf automake
 
-    git clone http://github.com/jgrunzweig/ffi-libfreenect.git
-    cd ffi-libfreenect
-    (sudo)? gem install jeweler
-    rake install
+  sudo apt-get install libltdl3-dev
 
-=== Synopsis
+=== Build and Install libusb
 
-    require 'freenect'
+  git clone git://git.libusb.org/libusb.git
 
-    ctx = Freenect.init()
-    devs = ctx.num_devices
+  ./autogen.sh
+  make
+  sudo make install
 
-    STDERR.puts "Number of Kinects detected: #{devs}"
-    unless devs > 0
-      STDERR.puts "Error: no kinect detected"
-      exit 1
-    end
+=== Build and Install libfreenect
 
-    STDERR.puts "Selecting device 0"
-    dev = ctx.open_device(0)
+  git clone git://github.com/OpenKinect/libfreenect.git
 
-    dev.set_led(:red)   # play with the led
-    dev.set_tilt_degrees(30)  # tilt up to max
-    sleep 1
-    dev.set_tilt_degrees(-30) # tilt down to max
-    sleep 1
-    dev.set_tilt_degrees(0.0) # tilt back to center
-    sleep 1
-    dev.set_led(:green)   # play with the led
+  cd libreenect
+  mkdir build
+  cd build
+  cmake ..
 
-    # Actual video and depth capture work similarly to eachother.
-    # But they're still both pretty un-sugary.
-    #
-    # Future versions will probably abstract this and try to make it more 
-    # ruby-ish.
-    #
-    # The example below shows how to write a single video frame to a PPM file.
+  make
+  sudo make install
 
-    dev.set_depth_format(Freenect::DEPTH_11BIT)
-    dev.set_video_format(Freenect::VIDEO_RGB)
-    dev.start_depth()
-    dev.start_video()
+=== Configure USB Interface
 
-    $snapshot_finished = nil
+Add the following lines to the file <tt>usr-local-libs.conf</tt>
 
-    STDERR.puts "Taking snapshot"
-    dev.set_video_callback do |device, video, timestamp|
-      if not $snapshot_finished
-        fname = "%u.ppm" % timestamp
-        STDERR.puts "Writing #{fname}"
-        File.open(fname, "w") do |f|
-          f.puts("P6 %d %d 255\n" % [ Freenect::FRAME_W, Freenect::FRAME_H ] )
-          f.write(video.read_string_length(Freenect::RGB_SIZE))
-        end
-        $snapshot_finished = true
-      end
-    end
+  /usr/local/lib64
+  /usr/local/lib
+  
+Next enter the following commands
 
-    until $snapshot_finished 
-      break if (ctx.process_events < 0)
-    end
-
-    dev.set_led(:off)
-    dev.stop_depth
-    dev.stop_video
-    dev.close
-    ctx.close
+  sudo su root
+  mv usr-local-libs.conf /etc/ld.so.conf.d/usr-local-libs.conf
+  /sbin/ldconfig -v
 
 == Copyright
 
-Copyright (c) 2010 Josh Grunzweig & Eric Monti. See LICENSE.txt for details.
+Copyright (c) 2012 Troy Stribling. See LICENSE.txt for details.
