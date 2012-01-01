@@ -9,7 +9,7 @@ FFI-based Ruby wrapper for the OpenKinect library. ruby-freenect supports the fo
 
 == Interface
 
-The interface is very simple and easy to use. This section will give a brief description of all supported methods.
+The interface is very simple. This section will give a brief description of all supported methods and attributes.
 
 === Video and Depth Modes
 
