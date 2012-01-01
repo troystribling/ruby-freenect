@@ -135,7 +135,7 @@ The supported values for LED Option are,
 
 === Miscellaneous methods
 
-End the connect session. 
+End the current session. 
 
   Freenect.stop
 
