@@ -15,36 +15,36 @@ The interface is very simple and easy to use. This section will give a brief des
 
 Video and depth modes are used to configure the video and depth data streams and provide info about the streams. Both are instances of the FreenectFrameMode. FreenectFrameMode attributes are shown below and may be accessed with <tt>[]<\tt>
 
-* <b>:resolution<\b>             Resolution
-* <b>:format<\b>                 Video or depth format accessed using mode[:format][:video_format] or mode[:format][:depth_format]
-* <b>:bytes<\b>                  Total buffer size in bytes to hold a single frame of data,
-* <b>:width<\b>                  Width of the frame, in pixels
-* <b>:height<\b>                 Height of the frame, in pixels
-* <b>:data_bits_per_pixel<\b>    Number of bits of information needed for each pixel
-* <b>:padding_bits_per_pixel<\b> Number of bits of padding for alignment used for each pixel
-* <b>:framerate<\b>              Approximate expected frame rate, in Hz
-* <b>:is_valid<\b>               If 0  is invalid and does not describe a supported mode.  Otherwise, the frame_mode is valid.
+* <b>resolution<\b>             Resolution
+* <b>format<\b>                 Video or depth format accessed using mode[:format][:video_format] or mode[:format][:depth_format]
+* <b>bytes<\b>                  Total buffer size in bytes to hold a single frame of data,
+* <b>width<\b>                  Width of the frame, in pixels
+* <b>height<\b>                 Height of the frame, in pixels
+* <b>data_bits_per_pixel<\b>    Number of bits of information needed for each pixel
+* <b>padding_bits_per_pixel<\b> Number of bits of padding for alignment used for each pixel
+* <b>framerate<\b>              Approximate expected frame rate, in Hz
+* <b>is_valid<\b>               If 0  is invalid and does not describe a supported mode.  Otherwise, the frame_mode is valid.
 
 The supported resolutions are,
 
-* <b>:freenect_resolution_medium<\b> VGA  - 640x480 
+* <b>freenect_resolution_medium<\b> VGA  - 640x480 
   
 The supported Depth Formats are.
 
-* <b>:freenect_depth_11bit<\b>        11 bit depth information in one uint16_t/pixel
-* <b>:freenect_depth_10bit<\b>        10 bit depth information in one uint16_t/pixel
-* <b>:freenect_depth_11bit_packed<\b> 11 bit packed depth information
-* <b>:freenect_depth_10bit_packed<\b> 10 bit packed depth information
+* <b>freenect_depth_11bit<\b>        11 bit depth information in one uint16_t/pixel
+* <b>freenect_depth_10bit<\b>        10 bit depth information in one uint16_t/pixel
+* <b>freenect_depth_11bit_packed<\b> 11 bit packed depth information
+* <b>freenect_depth_10bit_packed<\b> 10 bit packed depth information
   
 The supported Video Formats are,
 
-* <b>:freenect_video_rgb<\b>              Decompressed RGB mode 
-* <b>:freenect_video_bayer<\b>            Bayer compressed mode
-* <b>:freenect_video_ir_8bit<\b>          8-bit IR mode
-* <b>:freenect_video_ir_10bit<\b>         10-bit IR mode
-* <b>:freenect_video_ir_10bit_packed<\b>  10-bit packed IR mode
-* <b>:freenect_video_yuv_rgb<\b>          YUV RGB mode
-* <b>:freenect_video_yuv_raw<\b>          YUV Raw mode
+* <b>freenect_video_rgb<\b>              Decompressed RGB mode 
+* <b>freenect_video_bayer<\b>            Bayer compressed mode
+* <b>freenect_video_ir_8bit<\b>          8-bit IR mode
+* <b>freenect_video_ir_10bit<\b>         10-bit IR mode
+* <b>freenect_video_ir_10bit_packed<\b>  10-bit packed IR mode
+* <b>freenect_video_yuv_rgb<\b>          YUV RGB mode
+* <b>freenect_video_yuv_raw<\b>          YUV Raw mode
    
 === Video Stream
 
@@ -124,14 +124,14 @@ The following methods are used to change the LED status,
 
   Freenect.set_led(led_option)
 
-The supported values for LED option are,
+The supported values for LED Option are,
 
-* <b>:led_off<\b>               Turn LED off
-* <b>:led_green<\b>             Turn LED to Green
-* <b>:led_red<\b>               Turn LED to Red
-* <b>:led_yellow<\b>            Turn LED to Yellow
-* <b>:led_blink_green<\b>       Make LED blink Green
-* <b>:led_blink_red_yellow<\b>  Make LED blink Red/Yellow
+* <b>led_off<\b>               Turn LED off
+* <b>led_green<\b>             Turn LED to Green
+* <b>led_red<\b>               Turn LED to Red
+* <b>led_yellow<\b>            Turn LED to Yellow
+* <b>led_blink_green<\b>       Make LED blink Green
+* <b>led_blink_red_yellow<\b>  Make LED blink Red/Yellow
 
 === Miscellaneous methods
 
@@ -143,6 +143,10 @@ Return the number of Kinects.
 
   Freenect.get_device_count
   
+  
+=== Examples
+
+Several examples can be found at https://github.com/troystribling/ruby-freenect/tree/master/examples. The examples require the ruby-opengl2 gem.
   
 == Install libfreenect
 
