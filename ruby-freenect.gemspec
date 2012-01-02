@@ -32,7 +32,8 @@ Gem::Specification.new do |s|
     "freenect4r.gemspec",
     "lib/freenect.rb",
     "lib/freenect/driver.rb",
-    "lib/freenect/freenect.rb"
+    "lib/freenect/freenect.rb",
+    "ruby-freenect.gemspec"
   ]
   s.homepage = "https://github.com/troystribling/freenect4r"
   s.rdoc_options = ["--title", "FFI Freenect", "--main", "README.rdoc", "--line-numbers"]
