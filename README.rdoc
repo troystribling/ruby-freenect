@@ -152,7 +152,7 @@ Return the number of Kinects.
   
 === Examples
 
-Several examples can be found at https://github.com/troystribling/ruby-freenect/tree/master/examples. The examples require the ruby-opengl2 gem.
+Several examples can be found at https://github.com/troystribling/ruby-freenect/tree/master/examples. The examples require the ruby-opengl2 gem and the mkrf gem.
   
 == Install libfreenect
 
