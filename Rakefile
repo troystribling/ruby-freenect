@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "ruby-freenect"
     gem.summary = gem.description = %Q{Ruby bindings for the libfreenect Kinect driver}
-    gem.homepage = "https://github.com/troystribling/freenect4r"
+    gem.homepage = "https://github.com/troystribling/ruby-freenect"
     gem.authors = ["Troy Stribling"]
 
     gem.rdoc_options += ["--title", "FFI Freenect", "--main",  "README.rdoc", "--line-numbers"]
