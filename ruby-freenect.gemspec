@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "ruby-freenect"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Troy Stribling"]
@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
     "lib/freenect/freenect.rb",
     "ruby-freenect.gemspec"
   ]
-  s.homepage = "https://github.com/troystribling/freenect4r"
+  s.homepage = "https://github.com/troystribling/ruby-freenect"
   s.rdoc_options = ["--title", "FFI Freenect", "--main", "README.rdoc", "--line-numbers"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.10"
