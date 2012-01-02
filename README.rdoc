@@ -7,6 +7,11 @@ FFI-based Ruby wrapper for the OpenKinect library. ruby-freenect supports the fo
 * Tilt
 * Accelerometer
 
+== Requirements
+
+* Ruby 1.9.3 or greater
+* Only tested on Ubuntu 10.04
+
 == Interface
 
 The interface is very simple. This section will give a brief description of all supported methods and attributes.
