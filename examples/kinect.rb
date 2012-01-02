@@ -2,6 +2,8 @@ $: << File.expand_path(File.join(File.dirname(__FILE__), "../lib")) << File.expa
 require 'freenect'
 require 'tools'
 
+puts "#{Freenect.get_device_count} Kinect found"
+
 video_mode_count = Freenect.get_video_mode_count
 puts "Video Mode Count: #{video_mode_count}"
 puts "Supported Video Modes"

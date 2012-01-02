@@ -1,6 +1,8 @@
 $: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
 require 'freenect'
 
+puts "#{Freenect.get_device_count} Kinect found"
+
 [-25,-15,0,15,25,0].each do |angle| 
   puts "Set Tilt Angle: #{angle}"
   tilt_state = Freenect.get_tilt_state

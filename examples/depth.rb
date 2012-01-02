@@ -5,7 +5,7 @@ require 'tools'
 require 'opengl'
 include Gl,Glu,Glut
 
-puts "Opening Kinect"
+puts "#{Freenect.get_device_count} Kinect found"
 depth_mode = Freenect.find_depth_mode(:freenect_depth_11bit)
 
 display = lambda do

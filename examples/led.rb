@@ -1,6 +1,7 @@
 $: << File.expand_path(File.join(File.dirname(__FILE__), "../lib"))
 require 'freenect'
 
+puts "#{Freenect.get_device_count} Kinect found"
 puts "LED GREEN"
 Freenect.set_led(:led_green)
 sleep(5)
