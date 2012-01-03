@@ -15,7 +15,9 @@ FFI-based Ruby wrapper for the OpenKinect library. ruby-freenect supports the fo
 
 == Interface
 
-The interface is very simple. This section will give a description of all supported methods and attributes.
+The interface is very simple. This section will give a description of all supported methods and attributes. 
+Several examples can be found at https://github.com/troystribling/ruby-freenect/tree/master/examples. The examples require the ruby-opengl2 gem and the mkrf gem.
+
 
 === Video and Depth Modes
 
@@ -148,12 +150,7 @@ End the current session.
 Return the number of Kinects.
 
   Freenect.get_device_count
-  
-  
-=== Examples
-
-Several examples can be found at https://github.com/troystribling/ruby-freenect/tree/master/examples. The examples require the ruby-opengl2 gem and the mkrf gem.
-  
+    
 == Install libfreenect
 
 If you have problems visit http://openkinect.org/wiki/Getting_Started#Manual_Build_on_Linux
