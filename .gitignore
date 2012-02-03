@@ -1,1 +1,5 @@
 *.gem
+*.video
+*.ir
+*.depth
+
