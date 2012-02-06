@@ -51,8 +51,6 @@ The supported Video Formats are,
 * <b>:freenect_video_ir_8bit</b>          - 8-bit IR mode
 * <b>:freenect_video_ir_10bit</b>         - 10-bit IR mode
 * <b>:freenect_video_ir_10bit_packed</b>  - 10-bit packed IR mode
-* <b>:freenect_video_yuv_rgb</b>          - YUV RGB mode
-* <b>:freenect_video_yuv_raw</b>          - YUV Raw mode
    
 === Video Stream
 

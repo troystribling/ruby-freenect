@@ -1,5 +1,7 @@
 *.gem
 *.rgb
+*.yuv
+*.bayer
 *.ir
 *.depth
 
