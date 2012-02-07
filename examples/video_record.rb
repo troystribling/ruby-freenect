@@ -16,9 +16,19 @@ trap('INT') do
   recording = false
 end
 
+frame = 0
+time_start = Time.now
+
 while recording do
- file.puts Freenect.get_video(video_mode)
+  frame += 1
+  file.puts Freenect.get_video(video_mode)
+  puts "FRAME: #{frame}" if frame % 30 == 0
 end
+
+time_running = Time.now - time_start
+puts "TOTAL FRAMES: #{frame}"
+puts "TOTAL TIME:   #{time_running}"
+puts "FRAME RATE:   #{frame/time_running}"
 
 at_exit do
   Freenect.stop
