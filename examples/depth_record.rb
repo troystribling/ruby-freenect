@@ -20,8 +20,8 @@ time_start = Time.now
 
 while recording do
   frame += 1
-  file.puts Freenect.get_depth(depth_mode)
-  puts "FRAME: #{frame}" if frame % 30 == 0
+  frame_buffer = Freenect.get_depth(depth_mode)
+  file.write frame_buffer
 end
 
 time_running = Time.now - time_start
@@ -30,6 +30,7 @@ puts "TOTAL TIME:   #{time_running}"
 puts "FRAME RATE:   #{frame/time_running}"
 
 at_exit do
+  file.stop
   Freenect.stop
 end
 
